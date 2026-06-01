@@ -1,0 +1,117 @@
+# Tables
+
+We will learn how to manipulate data organized in tables in linux.
+
+Make sure you are in your "~/linux" directory.
+
+We will use the table you created called "part.cdc.seqs.len.both.txt". The columns or fields the read1name, read1length, read2name, read2length. No column headers are present.
+
+Take a look at the file using cat, more, or less.
+
+## Columns
+
+You can grab columns (fields) from a file using "cut" or "awk" (**A**ho, **W**einberger and **K**ernighan; authors of the language) or "bioawk".
+
+Get the read2 length (column 4) from part.cdc.seqs.len.both.txt.
+
+```{bash, eval=FALSE}
+cut -f4 part.cdc.seqs.len.both.txt
+```
+
+In "awk" (or "bioawk") it looks like this.
+
+```{bash, eval=FALSE}
+awk '{print $4}' part.cdc.seqs.len.both.txt
+
+bioawk '{print $4}' part.cdc.seqs.len.both.txt
+```
+
+You can even rearrange the columns. Let's get the length of read1, the length of read2, and then the sequence name. The "\t" prints a tab.
+
+```{bash, eval=FALSE}
+cut -f 2,4,1 part.cdc.seqs.len.both.txt
+
+awk '{print $2 "\t" $4 "\t" $1}' part.cdc.seqs.len.both.txt
+
+bioawk '{print $2 "\t" $4 "\t" $1}' part.cdc.seqs.len.both.txt
+```
+
+Awk (and bioawk) allow you to do mathematical operations on columns as well. Let's find the difference between the read lengths (read1length-read2length).
+
+```{bash, eval=FALSE}
+awk '{print $4-$2}' part.cdc.seqs.len.both.txt
+```
+
+## Substitutions
+
+You can perform substitutions using "sed" (**S**tream **ED**itor). The format is:
+
+sed "s/thing_to_sub_out/thing_to_sub_in/g"
+
+The g ("global") at the end tells sed to make all the substitutions it can on each line and not just the first one.
+
+Let's get the 3rd column from the sequence name line of the read1 fastq file. We'll use the one that we created earlier with the first 10 names ("cdc.names.r1.txt").
+
+```{bash, eval=FALSE}
+cut -f 3 cdc.names.r1.txt
+```
+
+This field has the length in it but it also has text ("length="). Let's substitute that out and replace it with nothing. We don't need the "g" qualifier since there is only one instance per line.
+
+```{bash, eval=FALSE}
+cut -f 3 cdc.names.r1.txt | sed "s/length=//"
+```
+
+
+## Sort
+
+We can sort files using the "sort" command.
+
+Numerically ("-n") sort the read1 length column (column 2) ("-k2") from shortest to longest.
+
+```{bash, eval=FALSE}
+sort -nk2 part.cdc.seqs.len.both.txt
+```
+
+Reverse ("-r") the order.
+
+```{bash, eval=FALSE}
+sort -nrk2 part.cdc.seqs.len.both.txt
+```
+
+Numerically ("-n") sort the read2 length column ("-k4") from shortest to longest.
+
+```{bash, eval=FALSE}
+sort -nk4 part.cdc.seqs.len.both.txt
+```
+
+Reverse ("-r") the order.
+
+```{bash, eval=FALSE}
+sort -nrk4 part.cdc.seqs.len.both.txt
+```
+
+## Unique
+
+You can also find the unique values using the "uniq" command. The fastq files contained trimmed reads meaning that low quality sequence data has been trimmed back from the ends of the reads resulting in shorter sequences. Let's see what sequence lengths we have for read1 (column 2).
+
+> **_NOTE:_** The "uniq" command assumes the values are sorted so get in the habit of sorting before finding uniq values.
+
+```{bash, eval=FALSE}
+cut -f2 part.cdc.seqs.len.both.txt | sort -n | uniq
+```
+
+We can also count how many of each unique value there are using the "-c" flag.
+
+```{bash, eval=FALSE}
+cut -f2 part.cdc.seqs.len.both.txt | sort -n | uniq -c
+```
+
+
+## Jeopardy
+
+https://jeopardylabs.com/play/linux-commands-how-to
+
+
+
+

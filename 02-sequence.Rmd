@@ -1,0 +1,373 @@
+# Sequence Data
+
+We will look at sequence formats and learn how to work with sequence data in linux.
+
+Make sure you are in your "~/linux" directory.
+
+## Chronic disease corner
+
+### Tuberculosis
+
+**Tuberculosis (TB)** is an infectious disease caused by *Mycobacterium tuberculosis* bacteria. The disease is considered chronic if not treated but is curable if treated. It can be either in latent or active form and can recur. Common symptoms include persistent coughs (including coughing up blood or sputum (phlegm)) and chest pain ([U.S. Centers for Disease Control and Prevention (CDC)](https://www.cdc.gov/tb/signs-symptoms/index.html)).
+
+:::tb
+"TB in the twenty-first century is not really caused by a bacteria that we know how to kill. TB in the twenty-first century is really caused by those social determinants of health, which at their core are about human-built systems for extracting and allocating resources. The real cause of contemporary tuberculosis, is for lack of a better term, us."
+― John Green, "Everything Is Tuberculosis: The History and Persistence of Our Deadliest Infection"
+:::
+
+Despite the fact that there is a vaccine to prevent severe disease and it is curable with antibiotics, over 1 million people died from TB in 2024 and it causes more deaths than any other single infection. Multi-drug resistance is creating a public health crisis. ([World Health Organization (WHO) March 24, 2026](https://www.who.int/news-room/fact-sheets/detail/tuberculosis)).
+
+:::tb
+“How can I accept a world where over a million people will die this year for want of a cure that has existed for nearly a century?”
+― John Green, Everything Is Tuberculosis: The History and Persistence of Our Deadliest Infection
+:::
+
+
+
+## Working with fasta sequence
+
+:::dna
+We will use a file with *M. tuberculosis* genome assembly sequences created from [PacBio HiFi sequencing reads](https://www.pacb.com/technology/hifi-sequencing/). These genome assemblies are from Genbank BioProject PRJNA719670. These sequences were all collected in Peru.
+:::
+
+
+### Symbolic links
+
+Rather than copying a file you can make a link to it. This is especially useful if the file is large because the link is a pointer that uses almost no storage space. Here we will do a soft link (-s), which means that if the original file is ever deleted the link will break. A hard link (-h) is also possible, which means that if the original file is deleted it will be copied over to the link.
+
+*Basic syntax*: ln [options] FileYouWantToLinkTo LinkName
+
+Create a soft link to the file with genome sequences of *M. tuberculosis*, then list the files in your directory.
+
+> **_NOTE:_** We'll take a shortcut using "." to indicate to name the link the same thing.
+
+```{bash, eval=FALSE}
+ln -s /home/data/nise/M_tuberculosis.fa .
+
+ls -l
+```
+
+
+### Head and Tail
+
+The head and tail commands give you the first or last 10 lines (by default) of a file, which can be handy for getting a glimpse into the contents of a file.
+
+*Basic syntax*: head/tail [options] filename
+
+Grab the beginning of a file.
+
+```{bash, eval=FALSE}
+head M_tuberculosis.fa
+```
+
+Grab the end of the file.
+
+```{bash, eval=FALSE}
+tail M_tuberculosis.fa
+```
+
+You can change the number of lines returned withe "-n" parameter.
+
+```{bash, eval=FALSE}
+head -n 3 M_tuberculosis.fa
+
+tail -n 100 M_tuberculosis.fa
+```
+
+
+### fasta format
+
+Fasta files (.fasta or .fa or .fna or .fsa) contain one or more DNA, RNA, or protein sequences. Each sequence is preceded by a **header** starting with ">", which is the name given to the sequence.
+
+The DNA nucleotide sequence starts on the next line and may be split across multiple lines. It is all considered the same sequence until you reach the next header.
+
+Head the M_tuberculosis.fa file again.
+
+```{bash, eval=FALSE}
+head M_tuberculosis.fa
+```
+
+
+### Line count
+
+The 'wc' ("word count") command calculates several counts for a file or other input. Here, we will focus on counting the number of lines with the "-l" parameter.
+
+Count the number of lines in the M_tuberculosis.fa file
+
+```{bash, eval=FALSE}
+wc -l M_tuberculosis.fa
+```
+
+
+### Searching within files
+
+The 'grep' ("**g**lobal, **r**egular **e**xpression, **p**rint") command will output the lines from a file that contain a provided expression.
+
+*Basic syntax*: grep [options] expression filename
+
+This command will get all the header lines (those beginning with ">") from the M_tuberculosis.fa file.
+
+> **_NOTE:_** The "^" tells grep to only look for ">" at the beginning of each line.
+
+```{bash, eval=FALSE}
+grep "^>" M_tuberculosis.fa
+```
+
+Adding the "-c" option counts the number of lines containing a match 
+
++ **not** the number of matches!
+
+```{bash, eval=FALSE}
+grep -c "^>" M_tuberculosis.fa
+```
+
+The "-v" option reverses the grep search, grabbing only lines that do not have the expression. In this case, it will print out the sequence and not the header.
+
+```{bash, eval=FALSE}
+grep -v "^>" M_tuberculosis.fa
+```
+
+Use ctrl-c to halt the output.
+
+
+### The pipe operator
+
+The pipe operator ("|") takes the output of one command and passes it as input into a second command.
+
+Use the pipe operator to look at the first 2 headers in the M_tuberculosis.fa file.
+
+```{bash, eval=FALSE}
+grep '>' M_tuberculosis.fa | head -n 2
+```
+
+### Sequence lengths
+
+We will use bioawk, a version of awk extended for use with biological data, to calculate the lengths of each of the sequences in the fasta file.
+
+The bioawk "-c" flag indicates the format. The "fastx" format covers both "fasta" and "fastq" (bioawk will figure out which).
+
+```{bash, eval=FALSE}
+bioawk -c fastx '{ print $name, length($seq) }' M_tuberculosis.fa
+```
+
+
+## Working with fastq sequence
+
+:::dna
+We will use fastq files with [Illumina sequencing reads](https://www.illumina.com/science/technology/next-generation-sequencing/sequencing-technology.html) from an *M. tuberculosis* sample. This sample was sequenced by the Centers for Disease Control and Prevention / Division of Tuberculosis Elimination / National Tuberculosis Molecular Surveillance Center (CDC-DTBE-NTMSC).
+
+Genbank accession numbers:
+
+BioProject PRJNA1442699  
+BioSample SAMN56809529  
+Run SRR37875168
+
+fastq files are generally quite large so we'll start with truncated versions that have fewer sequences.
+:::
+
+
+### fastq format
+
+fastq files contain sequence headers, reads, and quality scores, which aren't present in fasta files. Most Illumina runs are done to generate paired end reads that you will usually in two separate files for read1 and read2.
+
+Copy the files. There are two, named part_cdc_Myctu_1.fastq (read1) and part_cdc_Myctu_1.fastq (read2). We can use a wildcard to get them both.
+
+```{bash, eval=FALSE}
+cp part_cdc_Myctu_*.fastq .
+```
+
+Check that you got them both.
+
+```{bash, eval=FALSE}
+ls -ltr
+```
+
+
+Tail the last 4 lines of the read1 fastq file.
+
+```{bash, eval=FALSE}
+tail -n 4 part_cdc_Myctu_1.fastq
+```
+
+A fastq file has 4 lines per record:
+
++ The header; starts with "@"
++ The sequence
++ An optional header line; begins with "+" followed by header or just "+"
++ [Phred-scaled quality scores](https://www.illumina.com/documents/products/technotes/technote_Q-Scores.pdf)
+
+
+### fastq manipulation
+
+We can use bioawk to look at the pieces of the file. We'll pipe them into head to get the first 10 lines. We'll start with the read 1 file.
+
+Get the sequence names.
+
+```{bash, eval=FALSE}
+bioawk -c fastx '{ print $name }' part_cdc_Myctu_1.fastq |head
+```
+
+Get the sequence.
+
+```{bash, eval=FALSE}
+bioawk -c fastx '{ print $seq }' part_cdc_Myctu_1.fastq |head
+```
+
+Get the quality.
+
+```{bash, eval=FALSE}
+bioawk -c fastx '{ print $qual }' part_cdc_Myctu_1.fastq |head
+```
+
+Count the number of sequences. We'll count the number of sequence names but you could also count the number of sequences.
+
+```{bash, eval=FALSE}
+bioawk -c fastx '{ print $name }' part_cdc_Myctu_1.fastq | wc -l
+```
+
+Get the sequence names and lengths (they are also in the header so you could pull them out of there; we'll try that later).
+
+```{bash, eval=FALSE}
+bioawk -c fastx '{ print $name, length($seq) }' part_cdc_Myctu_1.fastq |head
+```
+
+Get the total amount of nucleotides (DNA letters). This will add the sequence length on to a variable called "SUM" for each line. Once it gets to the end of the file, it will print out "SUM".
+
+```{bash, eval=FALSE}
+bioawk -c fastx '{ SUM+=length($seq) } END {print SUM}' part_cdc_Myctu_1.fastq
+```
+
+
+:::work
+Using bioawk and both the read1 and read2 fastq files do the following and find the answers to the questions. You should still be in your ~/linux directory.
+
+1) Get the first 10 sequence names and put them into files named "cdc.names.r1.txt" and "cdc.names.r2.txt" for read1 and read2, respectively.
+
++ What differences are there between the sequence names for read1 and read2?  
++ Are the sequences in the same order for read1 and read2?
+
+<!--No difference in sequence names, but there usually is-->
+
+2) Get all the sequence lines from each fastq file and put them into files called "part.cdc.seqs.r1.txt" and "part.cdc.seqs.r2.txt", for read1 and read2, respectively.
+
++ What are the number of sequences in each file?
+
+<!--80 sequences in each file; 160 reads total but 80 sequence pairs-->
+
+3) Get all names and sequence lengths from each fastq file and put them into files called "part.cdc.seqs.len.r1.txt" and "part.cdc.seqs.len.r2.txt", for read1 and read2, respectively.
+
+:::
+
+## Merging files
+
+The "cat" command will let you combine files, one right after another.
+
+The "paste" command will let you combine files, right next to each other.
+
+Let's use "cat" to combine all the sequence lines from read1 and read2 into the same file. We'll use the files you just created (part.cdc.seqs.r1.txt and part.cdc.seqs.r2.txt).
+
+```{bash, eval=FALSE}
+cat part.cdc.seqs.r1.txt part.cdc.seqs.r2.txt > part.cdc.seqs.both.txt
+```
+
+The new file should have twice as many reads as the original two. Let's doublecheck.
+
+```{bash, eval=FALSE}
+wc -l part.cdc.seqs.*.txt
+```
+
+Let's use "paste" command to combine the read1 and read2 files with sequence names and lengths, using the "part.cdc.seqs.len.r1.txt" and "part.cdc.seqs.len.r2.txt" files you just created.
+
+```{bash, eval=FALSE}
+paste part.cdc.seqs.len.r1.txt part.cdc.seqs.len.r2.txt > part.cdc.seqs.len.both.txt
+```
+
+Let's take a look. There are multiple ways to look at files.
+
+The "cat" command will send the full contents of the file to the screen.
+
+```{bash, eval=FALSE}
+cat part.cdc.seqs.len.both.txt
+```
+
+
+The "more" command will send the contents of the file to the screen a screenful at a time. The return key scrolls down a line at a time while the spacebar scrolls down a screenful at a time. Hit "q" to quit "more" and return to the command line.
+
+
+```{bash, eval=FALSE}
+more part.cdc.seqs.len.both.txt
+```
+
+
+The "less" command opens up the content of the file and allows scrolling using the arrows. Type "q" to quit "less".
+
+```{bash, eval=FALSE}
+less part.cdc.seqs.len.both.txt
+```
+
+
+## Compressed files
+
+Files are often compressed (zipped) to save space. We'll use the 'gzip' and 'gunzip' commands to compress and uncompress the fastq files we have been working with.
+
+Compress both fastq files.
+
+```{bash, eval=FALSE}
+gzip part_cdc_Myctu_*.fastq
+```
+
+List the files. They should now have a ".gz" suffix.
+
+```{bash, eval=FALSE}
+ls -ltr
+```
+
+They are now in binary. Take a look.
+
+```{bash, eval=FALSE}
+cat part_cdc_Myctu_1.fastq.gz
+```
+
+You might have to hit ctrl-c to stop the command and get the command line prompt back.
+
+There are a few special commands that can read compressed files without uncompressing and recompressing them, which can be time consuming.
+
+"zcat" is a version of "cat" that can read compressed files.
+
+```{bash, eval=FALSE}
+zcat part_cdc_Myctu_1.fastq.gz
+```
+
+> **_NOTE:_** You can pipe the output of zcat into other commands, which lets you avoid compressing and decompressing.
+
+
+Likewise, "zgrep" is the version of "grep" for compressed files. Let's count the number of sequences in both fastq files that have an "N" in them (meaning that the actual nucleotide or DNA letter is unknown). In this fastq file there are no "N"s outside of the sequence lines but in other fastq files you might want to first extract the sequences if the headers have Ns, for instance.
+
+```{bash, eval=FALSE}
+zgrep -c "N" part_cdc_Myctu_*.fastq.gz
+```
+
+
+"bioawk", unlike "awk" or "cut", can read compressed files directly. Grabbing column 3 from compressed files looks like this for each command.
+
+```{bash, eval=FALSE}
+zcat part_cdc_Myctu_*.fastq.gz | cut -f 3
+
+zcat part_cdc_Myctu_*.fastq.gz | awk '{print $3}'
+
+bioawk '{print $3}' part_cdc_Myctu_*.fastq.gz
+```
+
+
+If you want to uncompress the files, use "gunzip".
+
+```{bash, eval=FALSE}
+gunzip part_cdc_Myctu_*.fastq.gz
+```
+
+List the files.
+
+```{bash, eval=FALSE}
+ls -ltr
+```
+

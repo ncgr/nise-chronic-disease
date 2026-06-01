@@ -1,3 +1,33 @@
+/home/data/nise/M_tub_SRR17234886.fastq
+
+
+
+## Chronic Disease Movies
+
+https://mission-cure.org/20-must-watch-movies-about-chronic-illness/
+Trailers
+
+
+https://ourworldindata.org/what-do-people-die-from-in-different-countries
+
+https://data.who.int/dashboards/ucn/overview
+  Male/female and by country
+  
+
+
+https://www.cdc.gov/pcd/issues/2025/24_0539.htm
+Table 2. Prevalence Estimates and 10-Year Changes in Chronic Conditions Among Young Adults (Aged 18 to 34 Years) in US, Behavioral Risk Factor Surveillance System, 2013 and 2023
+
+
+awk subtract columns C288D13_ALL_LATEST.csv
+
+
+
+
+
+
+
+
 # Our World in Data (parsing)
 
 ## Practice parsing

@@ -1,0 +1,383 @@
+# Linux Intro
+
+<!--
+Name: nise-2406.training.ncgr.org
+IP: 172.19.59.20
+External ssh: ssh -p2406 user@inbre.ncgr.org
+-->
+
+
+## Server
+
+### NCGR Server, Linux, and bash
+
+The **NCGR server** is a computer that has a large amount of computational power and memory at the National Center for Genome Resources (NCGR). We'll be working on this computer.
+
+  + But it doesn't have a keyboard and monitor for you to interact with it. In the old days, a server would have a physical terminal (a workstation with a keyboard and monitor) physically attached to it so that you could send commands and receive output from the server.
+  + These days we use terminal emulator apps, such as Tabby Terminal (https://tabby.sh/), instead of a physical terminal to interact with the server.
+
+**Linux**: you can think of linux as the operating system on the server.
+
+**bash**: Bourne-Again SHell (bash) is both a shell and command language
+
+  + A shell is a user interface to the operating system, interpreting commands and sending them to the operating system to be run. bash is a command line interface (CLI), meaning you type in commands at the command line prompt (usually $ or %).
+  + A command language provides programming syntax such as for loops or if/then statements that allow you to interact more effectively with the server.
+
+
+### Terminal Emulator App
+
+You should already have the Tabby terminal app installed. If not, please visit the "Installs" section.
+
++ For **Windows**: search for "Tabby" from the Start menu
+
++ For **Mac**: search for "Tabby" using Spotlight (the magnifying glass in the top right of your Mac screen)
+
+
+### Connecting to the server
+
+1. Open your terminal.
+
+2. Type the following on your command line, substituting in your username for <username>. Your username is usually the first letter of your first name and your last name (all lowercase).
+
+The 'ssh' command stands for "**s**ecure **sh**ell" and allows you to create a secure connection to the server.
+
++ The -p option is required to specify connection port 2406
+
+
+```{bash, eval=FALSE}
+ssh -p2406 <username>@inbre.ncgr.org
+```
+
+> **_NOTE:_** If you’re prompted to confirm the connection, say "yes".
+
+3. Enter your password.
+
+> **_NOTE:_** Your password will not show up when you type it but it is registering what you are typing.
+
+You’re at the command line interface of NCGR's analysis server!
+
+To the left of the command prompt, you should see something like this: 
+
+jm@nise-2406:~$
+
+
+4. **Change your password**.
+
+```{bash, eval=FALSE}
+passwd
+```
+
+Enter you current password then the new password when prompted.
+
+
+## Directories and files
+
+### Working directory
+
+To find out which directory or folder you are in, type 'pwd' ("**p**rint **w**orking **d**irectory").
+
+```{bash, eval=FALSE}
+pwd
+```
+
++ This is your "home" directory.
+
+Now, create a directory under your home directory to run linux commands in. Use the 'mkdir' ("**m**a**k**e **dir**ectory") command.
+
+```{bash, eval=FALSE}
+mkdir linux
+```
+
+### List files and directories
+
+You can see which files and directories are in the current directory using the 'ls' ("**l**i**s**t") command.
+
+```{bash, eval=FALSE}
+ls
+```
+
+Add some options to change the output.
+
++ **l**ong list
+
+```{bash, eval=FALSE}
+ls -l
+```
+
+
++ **l**ong list, by **t**ime, **r**everse order (old to new)
+
+```{bash, eval=FALSE}
+ls -ltr
+```
+
+
+### Navigation
+
+Change directories into the new directory you made using the 'cd' command (**c**hange **d**irectory) then check what directory you are in.
+
+> **_NOTE:_** '~' is shorthand for your home directory
+
+```{bash, eval=FALSE}
+cd ~/linux
+
+pwd
+```
+
+## History
+
+Lists the commands you have entered so far using the 'history' command.
+
+```{bash, eval=FALSE}
+history
+```
+
+Scroll through recent commands with the up and down arrows.
+
+Redo a command from the list by number.
+
+```{bash, eval=FALSE}
+!8
+```
+
+Redo the last command you did.
+
+```{bash, eval=FALSE}
+!!
+```
+
+You can also use the "up arrow" to go through your previous commans (and rerun them). It will start with the most recent first. Try it.
+
+## File manipulation
+
+### Creating files
+
+By default, many commands print the output to the terminal screen, which you will see refered to as standard out or stdout.
+
+You can use the redirect operator ("**>**") to redirect the output into a file.
+
+Redirect the output of the history command into a file named "history.txt".
+    
+```{bash, eval=FALSE}
+history > history.txt
+```
+
+Now you have a file with the commands you have run.
+
+The 'cat' ("con**cat**enate) command will print the contents of the file to the screen.
+
+> **_NOTE:_** You can feed in more than one file into the 'cat' command and it will concatenate the output of all the files together, hence the name.
+
+```{bash, eval=FALSE}
+cat history.txt
+```
+
+### Tab completion
+
+To autocomplete remainder of a file or directory name instead of typing it all in:
+
++ cat h...(press tab)
+    + cat history.txt
++ prevents typos and saves time
+
+
+
+### Moving files
+
+The 'mv' ("**m**o**v**e") command will allow you to move a file to a different name or location.
+
+*Basic syntax*: mv [options] sourcefilename destinationfilename
+
+```{bash, eval=FALSE}
+mv history.txt history_file.txt
+
+ls -l
+```
+
+
+### Copying files
+
+The 'cp' ("**c**o**p**y) command duplicates a file.
+
+*Basic syntax*: cp [options] sourcefilename destinationfilename
+
+Make a backup copy of the history_file.txt file. Name the backup copy "history_bu.txt".
+
+```{bash, eval=FALSE}
+cp history_file.txt history_bu.txt
+```
+
+Check if the newly copied file is there
+
+```{bash, eval=FALSE}
+ls
+```
+
+
+### Downloading and Uploading
+
+The files you have created are on the NCGR computer. Sometimes you want to download those files onto your local computer or upload files from your computer to the server. We'll use FileZilla to do this. If you don't have FileZilla installed, please visit the "Installs" section.
+
+Open FileZilla.
+
+Change the connection from ftp (file transfer protocol) to sftp (ssh file transfer protocol).
+
++ In the menus, click File:Site Manager.
+
++ Click on "New Site".
+
++ Under protocol, choose "SFTP - SSH File Transfer Protocol.
+
++ Under host, type "inbre.ncgr.org".
+
++ Under host, type "2309".
+
++ Put in your username.
+
++ Click "Connect".
+
+> **_NOTE:_** The first time you connect, you might get a popup about an "unknown host key". Click the box to "always trust this host" and click "OK".
+
+Now you should be able to navigate to files on your local computer (left) and on the NCGR server (right). You can drag files between them.
+
+> **_NOTE:_** if you create new files they won't show up until you hit the refresh button in FileZilla (blue and green circular arrows at the top of FileZilla).
+
+Try to download your history file from the NCGR server (history_file.txt) that is in your ~/linux directory.
+
+You can right click on the downloaded file (left side of FileZilla) and choose "open" to open the file on your local computer.
+
+> **_NOTE:_** Double-click transfers files instead of opening them.
+
+
+### Removing files
+
+To remove a file use the 'rm' (**r**e**m**oving) command.
+
+*Basic syntax*: rm [options] filename
+
+```{bash, eval=FALSE}
+rm history_bu.txt
+```
+
+Check that it is gone.
+
+```{bash, eval=FALSE}
+ls -l
+```
+
+
+## Abort command
+
+Sometimes you might need to stop a command:
+
++ You type a command and nothing happens; it hangs (this can happen when the syntax doesn’t make sense).
++ You want to stop a command early because you want to change something in the command.
++ Your command has sent a lot of output to the screen and you don't want to wait until it finishes (for instance, you might be looking at the contents of a file that is really large).
+
+
+Hold "control" (CTRL) key while also typing the "c" key. 
+
+Run a command that will hang. The command below will hang because the cat command needs a file name after it.
+
+```{bash, eval=FALSE}
+cat
+```
+
+Hit ctrl-c to stop it (you should see the prompt again).
+
+::: work
+
+1) Go to your home directory.
+
+Hint: The "~" is a shortcut for your home directory. Or you can use /home/\<username\/>.
+
+2) Create a directory called "contacts".
+
+I will email you a file with the names, institutions, and email addresses of your fellow interns. The file is called "newfile.txt".
+
+3) Upload it onto the server and put it in the "contacts" directory that you just created.
+
+4) On the server, make a copy of the file called "interns.txt" in the same directory.
+
+5) Download the "interns.txt" file to your local computer.
+
+:::
+
+
+
+## Screen
+
+The 'screen' command keeps your commands from crashing if you get disconnected from the server. It also is a "terminal multiplexer" that creates multiple windows within your terminal so that you can have multiple processes running that you can quickly switch between.
+
+You should get in the habit of working in a screen.
+
+Common 'screen' commands and keyboard shortcuts:
+
++ Create a screen
+
+The -S allows you to name the screen. We'll call ours linuxpractice.
+
+```
+screen -S linuxpractice
+```
+
+Now you are in a screen and can run commands that will continue even if you disconnect from the server.
+
++ **C**reate an additional window in the screen.
+
+```
+CTRL-a + c
+```
+
+You can do this multiple times if you want more windows.
+
++ **N**ext window
+
+Go to the next window (based on the order the windows were made)
+
+```
+CTRL-a + n
+```
+
++ **P**revious window
+
+Go to the previous window (based on the order the windows were made)
+
+```
+CTRL-a + p
+```
+
++ Last used window
+
+Go to the last used window
+
+```
+CTRL-a + a
+```
+
++ **D**etach from a screen
+
+Get out the screen (but your screen and any processes in it are still running).
+
+```
+CTRL-a + d
+```
+
++ List screens
+
+**List** all the screens that are running.
+
+```
+screen -list
+```
+
++ **R**eattach to a screen and **d**etach if attached elsewhere
+
+This will allow you to reconnect with a screen. It will detach from the screen if you are attached elsewhere before reattaching. Being attached elsewhere can happen if you lost internet connection or power to your computer (and, therefore, lost server connection) or if you closed your terminal without detaching.
+
+```
+screen -rd linuxpractice
+```
+
+More information for screen and keyboard shortcuts are here: https://www.geeksforgeeks.org/linux-unix/screen-command-in-linux-with-examples/
+
