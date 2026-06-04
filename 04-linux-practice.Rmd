@@ -1,0 +1,41 @@
+# Linux practice
+
+<!--I suggest that you don’t make this timed–we want them to think through this rather than hurrying through it. Open book but not google or AI. All answers have at least 2 ways to do things so you could have the team whose turn it is make a guess then the other team could try to propose a different way. If you want to give them access to the files, you could send them into quick breakout rooms to discuss and test. Or you could have them put something in the chat (might still want breakout rooms so they can discuss?) and you can test it.
+-->
+
+
+
+We'll do another jeopardy using some new data files to practice.
+
+## Data files
+
+In the past we have linked to individual files. Here we will link to a folder with several files. Then cd into folder and list the files (we'll do both commands on the same line with "&&". You will be able to read the files but not edit them.
+
+```{bash, eval=FALSE}
+ln -s /home/data/nise/jeopardy/ .
+
+cd jeopardy && ls
+```
+
+The "**chronic_prevalence_US.csv**" file is similar to the one we used in the last chapter. It contains additional data from the [same place](https://www.cdc.gov/pcd/issues/2025/24_0539.htm). The first 3 columns hold the same data but there are two additional columns at the end with data from 2013 and 2023, respectively, for young adults ages 18-34. Also, the columns are separated by commas.
+
+The file "**chronic_disease_movies.txt**" was created based on movies listed [here](https://mission-cure.org/20-must-watch-movies-about-chronic-illness/).
+
+The "**M_tub_SRR17234886.fastq.gz**" file is a compressed file containing *M. tuberculosis* PacBio reads collected from Harvard Medical School.
+
+
+The "myctu.fa" contains all *M. tuberculosis* genomes available at the National Center for Biotechnology Information (NCBI) as of June 1, 2026. There are 8,669 genomes.
+
+
+## Jeopardy
+
+https://jeopardylabs.com/edit/linux-practice-2
+
+<!--
+<details>
+  <summary>Click for Answer</summary>
+  ```
+  Answer
+  ```
+</details>
+-->
