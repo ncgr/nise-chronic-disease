@@ -165,7 +165,7 @@ history > history.txt
 
 Now you have a file with the commands you have run.
 
-The 'cat' ("con**cat**enate) command will print the contents of the file to the screen.
+The 'cat' (con**cat**enate) command will print the contents of the file to the screen.
 
 > **_NOTE:_** You can feed in more than one file into the 'cat' command and it will concatenate the output of all the files together, hence the name.
 
@@ -198,7 +198,7 @@ ls -l
 
 ### Copying files
 
-The 'cp' ("**c**o**p**y) command duplicates a file.
+The 'cp' (**c**o**p**y) command duplicates a file.
 
 *Basic syntax*: cp [options] sourcefilename destinationfilename
 
