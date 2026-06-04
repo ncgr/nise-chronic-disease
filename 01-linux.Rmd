@@ -134,7 +134,6 @@ Lists the commands you have entered so far using the 'history' command.
 history
 ```
 
-Scroll through recent commands with the up and down arrows.
 
 Redo a command from the list by number.
 
