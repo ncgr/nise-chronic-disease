@@ -54,11 +54,18 @@ Mac Sierra or later\
 
 1. [Zoom](https://zoom.us/download)
 
-Install the correct version for your OS. Don't plan to use the web version, as this does not have enough features.
++ Install the correct version for your OS. Don't plan to use the web version, as this does not have enough features.
 
 2. [Tabby](https://tabby.sh) (terminal application)
 
++ Click on the download button.  
++ For macs you can install a version that ends in ".dmg".  
++ For windows you can install a version that ends in ".exe".  
++ After you have downloaded the appropriate version, double-click on it and follow the instructions.
+
 3. [Filezilla](https://filezilla-project.org/) (file transfer)
+
++ Install the client version.
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages
