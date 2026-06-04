@@ -15,7 +15,9 @@ github-repo: ncgr/NISE-Bioinformatics
 
 <!--I have left the PDF and EPUB download options on but some of the code runs off the page-->
 
-# License and Copyright{-}
+# Overview
+
+## License and Copyright
 
 License:
 Creative Commons Attribution-NonCommercial-NoDerivatives 4.0
@@ -39,11 +41,11 @@ This publication was supported by an Institutional Development Award (IDeA) from
 This document is available at https://inbre.ncgr.org/nise-bioinformatics
 
 
-# Welcome
+## Welcome
 
 Welcome to the Virtual Bioinformatics New Mexico INBRE Summer Experience (NISE)! You will learn bioinformatics skills and apply them to researching chronic diseases. The majority of Americans have at least one chronic disease and while the prevalence of these chronic conditions increases with age, the United States Centers for Disease Control and Prevention (CDC) estimates that even the majority (60%) of young people (ages 18-34) have at least one chronic disease. Furthermore, chronic diseases in the United States represent many of the leading causes of death and disability and their prevalence is expected to double by 2050. We will explore underlying causes (genetic and environmental), medical and lifestyle interventions, especially those that apply to multiple chronic diseases, as well as the diseases themselves. These diseases are diverse, including heart disease, diabetes, kidney disease, cancer, and many respiratory, gastrointestinal, neurological, musculoskeletal (including chronic pain), and infectious diseases, in addition to mental health conditions.
 
-# Installations
+## Installations
 
 Computer requirements:\
 Windows 7, 8, 10 or later \
