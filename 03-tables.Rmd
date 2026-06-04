@@ -42,6 +42,95 @@ Awk (and bioawk) allow you to do mathematical operations on columns as well. Let
 awk '{print $4-$2}' part.cdc.seqs.len.both.txt
 ```
 
+By default, the "awk" command splits fields on any combination of whitespace, including tabs and spaces. The "cut" command splits fields at tabs. Let's look at a file with both spaces and tabs.
+
+The file has prevalences (percentages of people) with chronic diseases. In this case we are looking at data on adults ages 18+ in the U.S. that is derived from [here](https://www.cdc.gov/pcd/issues/2025/24_0539.htm).
+
+Link to the file.
+
+```{bash, eval=FALSE}
+ln -s /home/data/nise/chronic_prevalence_US_adult.txt .
+```
+
+Take a look at the file.
+
+```{bash, eval=FALSE}
+cat chronic_prevalence_US_adult.txt
+```
+
+There are 3 columns:  
+Chronic condition (disease name)  
+2013 18+ (the prevalence of the disease in U.S. adults in 2013)  
+2013 18+ (the prevalence of the disease in U.S. adults in 2023)
+
+
+Get the second using both "cut".
+
+```{bash, eval=FALSE}
+cut -f 2 chronic_prevalence_US_adult.txt
+```
+
+Now get it with awk and compare.
+
+```{bash, eval=FALSE}
+awk '{print $2}' chronic_prevalence_US_adult.txt
+```
+
+The "awk" command is splitting each word in the chronic disease name into its own column.
+
+But you can set the delimiter explicitly using the "-F" (field separator) parameter, telling "awk" to only split on tabs.
+
+```{bash, eval=FALSE}
+awk -F "\t" '{print $2}' chronic_prevalence_US_adult.txt
+```
+
+You can also change the delimiter for "cut" with the "-d" (delimiter) parameter. For example, "-d," will split fields based on commas.
+
+## Viewing tables
+
+To get the columns to line up better, use the "column" command. The "-t" parameter tells it to print the file in "table" format. The default is to split on whitespace but we can change that with the "-s" parameter. For tabs, you need to put a "$" before the tab ("\t") notation. Otherwise, it will split it at every "t".
+
+
+```{bash, eval=FALSE}
+column -t -s $'\t' chronic_prevalence_US_adult.txt
+```
+
+## Searching within columns
+
+If we want to find which rows in the "chronic_prevalence_US_adult.txt" file contain "disease", we can do it with "grep", which you learned earlier.
+
+```{bash, eval=FALSE}
+grep "disease" chronic_prevalence_US_adult.txt
+```
+
+<!-- gff is an example-->
+There are some instances, however, where you want to find rows with a match in a specific column. You can do that with "awk" using an if statement before the curly brackets. If it finds the word "disease" within column 1, it will print it.
+
+```{bash, eval=FALSE}
+awk -F "\t" '$1~/disease/{print}' chronic_prevalence_US_adult.txt
+```
+
+You can also filter based on the numbers. The following will get all rows where the 2023 prevalence is >=10%.
+
+```{bash, eval=FALSE}
+awk -F "\t" '$3>=10{print}' chronic_prevalence_US_adult.txt
+```
+
+If you want to find rows with a 2023 prevelance between 10% and 20% (inclusive), you can do both in the same command.
+
+```{bash, eval=FALSE}
+awk -F "\t" '$3>=10&&$3<=20{print}' chronic_prevalence_US_adult.txt
+```
+
+
+:::work
+1) Calculate how much each chronic disease changed between 2013 and 2023 using awk.
++ The output should include the chronic disease name, the 2013 prevalence, the 2023 prevalence, and the difference.
+
+2) Print out only lines where the prevalence went down (the different is negative).
+:::
+
+
 ## Substitutions
 
 You can perform substitutions using "sed" (**S**tream **ED**itor). The format is:
