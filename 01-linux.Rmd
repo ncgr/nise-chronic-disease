@@ -82,6 +82,8 @@ pwd
 
 + This is your "home" directory.
 
+### Creating directories
+
 Now, create a directory under your home directory to run linux commands in. Use the 'mkdir' ("**m**a**k**e **dir**ectory") command.
 
 ```{bash, eval=FALSE}
