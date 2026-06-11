@@ -170,10 +170,12 @@ fastq files are generally quite large so we'll start with truncated versions tha
 
 fastq files contain sequence headers, reads, and quality scores, which aren't present in fasta files. Most Illumina runs are done to generate paired end reads that you will usually in two separate files for read1 and read2.
 
-Copy the files. There are two, named part_cdc_Myctu_1.fastq (read1) and part_cdc_Myctu_1.fastq (read2). We can use a wildcard to get them both.
+Illumina quality scores are encoded so that they each take up only one character (https://support.illumina.com/help/BaseSpace_Sequence_Hub_OLH_009008_2/Source/Informatics/BS/QualityScoreEncoding_swBS.htm).
+
+Copy the files. There are two, named part_cdc_Myctu_1.fastq (read1) and part_cdc_Myctu_2.fastq (read2). We can use a wildcard to get them both.
 
 ```{bash, eval=FALSE}
-cp part_cdc_Myctu_*.fastq .
+cp /home/data/nise/part_cdc_Myctu_*.fastq .
 ```
 
 Check that you got them both.
