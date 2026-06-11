@@ -147,13 +147,15 @@ Take a look at the file.
 ls -l
 ```
 
-
-:::work
-Practice multiple sequence alignments with another set of HIV-1 sequences and the related simian immunodeficiency virus (SIV), which infects non-human primates. In this case all the SIV sequences were isolated from chimpanzees. These sequences are also from the pol gene.
+:::dna
+Practice multiple sequence alignments with another set of HIV-1 sequences and the related simian immunodeficiency virus (SIV), which infects non-human primates. In this case all the SIV sequences were isolated from chimpanzees. These sequences are also from the pol gene. They are from this paper: https://pmc.ncbi.nlm.nih.gov/articles/PMC2669881/#s4.
 
 Sequences are here: /home/data/nise/hiv1pol.fa
+:::
 
-Create MAFFT MSAs both in Jalview and on the server and answer the following questions.
+:::work
+
+Create MAFFT MSAs both in Jalview and on the server with the sequences above. Answer the following questions.
 
 1. How many sequences are there?  
 2. How many sequences are there from chimpanzees (they have "CPZ" in the sequence header)?  
