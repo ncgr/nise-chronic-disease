@@ -16,20 +16,7 @@ pre code {
 
 /* -----------div tips------------- */
 
-div.tb {
-    padding: 1em;
-    margin: 1em 0;
-    padding-left: 100px;
-    background-size: 70px;
-    background-repeat: no-repeat;
-    background-position: 15px center;
-    min-height: 120px;
-    color: #1f5386;
-    background-color: #bed3ec;
-    border: solid 5px #dfedff;
-}
-
-div.tb, div.dna, div.work {
+div.tb, div.dna, div.work, div.hiv {
     padding: 1em;
     margin: 1em 0;
     padding-left: 100px;
@@ -42,6 +29,13 @@ div.tb, div.dna, div.work {
 
 div.tb {
   background-image: url("Figures/noun-tuberculosis-7629554-3B6BF9.png");
+  color: #1f5386;
+  background-color: #dfedff;
+  border: solid 5px #bed3ec;
+}
+
+div.hiv {
+  background-image: url("Figures/noun-hiv-8165897-3B6BF9.png");
   color: #1f5386;
   background-color: #dfedff;
   border: solid 5px #bed3ec;
@@ -60,3 +54,4 @@ div.work {
   background-color: #f2e5d3;
   border: solid 5px #dec29e;
 }
+
