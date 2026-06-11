@@ -1,5 +1,8 @@
 # Phylogenetic trees
 
+
+<!-- HIV-1 subtypes = M, N, O, P. Pandemic is from subtype M which further subdivides into A, B, C, D, F, G, H, J, K -->
+
 ## Spike protein
 
 You can also do alignments of protein sequences. Working on the protein level shows you missense and nonsense mutations, which are the main drives of phenotypic change. Any silent mutations (mutations that don't change the amino acid sequence) are missed. While silent mutations only affect phenotype very rarely, they are useful to see how closely related organisms are evolving and, in the case of pathogens, they can inform modes of transmission. So, working on the protein vs the DNA level each have their advantages.
