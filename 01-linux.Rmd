@@ -223,7 +223,7 @@ Open FileZilla.
 
 Change the connection from ftp (file transfer protocol) to sftp (ssh file transfer protocol).
 
-+ In the menus, click File:Site Manager.
++ In the menus, click File: Site Manager.
 
 + Click on "New Site".
 
@@ -231,7 +231,7 @@ Change the connection from ftp (file transfer protocol) to sftp (ssh file transf
 
 + Under host, type "inbre.ncgr.org".
 
-+ Under host, type "2309".
++ Under host, type "2406".
 
 + Put in your username.
 
@@ -318,7 +318,7 @@ Common 'screen' commands and keyboard shortcuts:
 
 The -S allows you to name the screen. We'll call ours linuxpractice.
 
-```
+```{bash, eval=FALSE}
 screen -S linuxpractice
 ```
 
@@ -326,7 +326,7 @@ Now you are in a screen and can run commands that will continue even if you disc
 
 + **C**reate an additional window in the screen.
 
-```
+```{bash, eval=FALSE}
 CTRL-a + c
 ```
 
@@ -336,7 +336,7 @@ You can do this multiple times if you want more windows.
 
 Go to the next window (based on the order the windows were made)
 
-```
+```{bash, eval=FALSE}
 CTRL-a + n
 ```
 
@@ -344,7 +344,7 @@ CTRL-a + n
 
 Go to the previous window (based on the order the windows were made)
 
-```
+```{bash, eval=FALSE}
 CTRL-a + p
 ```
 
@@ -352,7 +352,7 @@ CTRL-a + p
 
 Go to the last used window
 
-```
+```{bash, eval=FALSE}
 CTRL-a + a
 ```
 
@@ -360,7 +360,7 @@ CTRL-a + a
 
 Get out the screen (but your screen and any processes in it are still running).
 
-```
+```{bash, eval=FALSE}
 CTRL-a + d
 ```
 
@@ -368,7 +368,7 @@ CTRL-a + d
 
 **List** all the screens that are running.
 
-```
+```{bash, eval=FALSE}
 screen -list
 ```
 
@@ -376,9 +376,21 @@ screen -list
 
 This will allow you to reconnect with a screen. It will detach from the screen if you are attached elsewhere before reattaching. Being attached elsewhere can happen if you lost internet connection or power to your computer (and, therefore, lost server connection) or if you closed your terminal without detaching.
 
-```
+```{bash, eval=FALSE}
 screen -rd linuxpractice
 ```
+
++ Scroll up when in a screen
+
+You need to go into "copy mode".
+
+```{bash, eval=FALSE}
+CTRL-A + ESC
+```
+
+Now you should be able to use the arrows to scroll through the screen.
+
+To get out of copy mode and come back to the command line, hit "ESC".
 
 More information for screen and keyboard shortcuts are here: https://www.geeksforgeeks.org/linux-unix/screen-command-in-linux-with-examples/
 
