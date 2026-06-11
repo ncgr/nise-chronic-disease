@@ -127,7 +127,7 @@ awk -F "\t" '$3>=10&&$3<=20{print}' chronic_prevalence_US_adult.txt
 1) Calculate how much each chronic disease changed between 2013 and 2023 using awk.
 + The output should include the chronic disease name, the 2013 prevalence, the 2023 prevalence, and the difference.
 
-2) Print out only lines where the prevalence went down (the different is negative).
+2) Print out only lines where the prevalence went down (the difference is negative).
 :::
 
 
